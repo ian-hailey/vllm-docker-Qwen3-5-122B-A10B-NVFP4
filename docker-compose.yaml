@@ -1,0 +1,41 @@
+services:
+  vllm:
+    build: .
+    image: vllm-custom-nightly
+    container_name: vllm
+    ipc: host
+    ports:
+      - "8000:8000"
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      NVIDIA_VISIBLE_DEVICES: "0"
+      CUDA_DEVICE_ORDER: "PCI_BUS_ID"
+      HUGGING_FACE_HUB_TOKEN: "hf_xxxxxxxxxxxxxxxxxxxxxxxxxx"
+      VLLM_WORKER_MULTIPROC_METHOD: "spawn"
+      SAFETENSORS_FAST_GPU: "1"
+      VLLM_DISABLE_PYNCCL: "1"
+      NCCL_IB_DISABLE: "1"
+      VLLM_ALLOW_LONG_MAX_MODEL_LEN: "1"
+      VLLM_NVFP4_GEMM_BACKEND: "cutlass"
+      VLLM_USE_FLASHINFER_MOE_FP4: "0"
+    command: >
+      Sehyo/Qwen3.5-122B-A10B-NVFP4
+      --served-model-name local-llm
+      --max-num-seqs 16
+      --gpu-memory-utilization 0.94
+      --reasoning-parser qwen3 
+      --enable-auto-tool-choice 
+      --tool-call-parser qwen3_coder
+      --safetensors-load-strategy lazy
+      --enable-prefix-caching 
+      --max-model-len auto
+      --enable-chunked-prefill 
+      --kv-cache-dtype fp8
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
