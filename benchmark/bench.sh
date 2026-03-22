@@ -4,7 +4,7 @@ docker exec -it vllm vllm bench serve \
     --base-url "http://127.0.0.1:8000" \
     --endpoint "/v1/completions" \
     --dataset-name "random" \
-    --num-prompts 4 \
-    --random-input-len 1000 \
+    --num-prompts 1 \
+    --random-input-len 124000 \
     --random-output-len 512 \
     --trust-remote-code 

@@ -1,0 +1,45 @@
+linux:~/docker/qwen-3-5-122b$ ./tune.sh 
+Collecting ray
+  Downloading ray-2.54.0-cp312-cp312-manylinux2014_x86_64.whl.metadata (21 kB)
+Requirement already satisfied: click>=7.0 in /usr/local/lib/python3.12/dist-packages (from ray) (8.3.1)
+Requirement already satisfied: filelock in /usr/local/lib/python3.12/dist-packages (from ray) (3.25.2)
+Requirement already satisfied: jsonschema in /usr/local/lib/python3.12/dist-packages (from ray) (4.26.0)
+Collecting msgpack<2.0.0,>=1.0.0 (from ray)
+  Downloading msgpack-1.1.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (8.1 kB)
+Requirement already satisfied: packaging>=24.2 in /usr/local/lib/python3.12/dist-packages (from ray) (26.0)
+Requirement already satisfied: protobuf>=3.20.3 in /usr/local/lib/python3.12/dist-packages (from ray) (6.33.6)
+Requirement already satisfied: pyyaml in /usr/local/lib/python3.12/dist-packages (from ray) (6.0.3)
+Requirement already satisfied: requests in /usr/local/lib/python3.12/dist-packages (from ray) (2.32.5)
+Requirement already satisfied: attrs>=22.2.0 in /usr/local/lib/python3.12/dist-packages (from jsonschema->ray) (26.1.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /usr/local/lib/python3.12/dist-packages (from jsonschema->ray) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in /usr/local/lib/python3.12/dist-packages (from jsonschema->ray) (0.37.0)
+Requirement already satisfied: rpds-py>=0.25.0 in /usr/local/lib/python3.12/dist-packages (from jsonschema->ray) (0.30.0)
+Requirement already satisfied: typing-extensions>=4.4.0 in /usr/local/lib/python3.12/dist-packages (from referencing>=0.28.4->jsonschema->ray) (4.15.0)
+Requirement already satisfied: charset_normalizer<4,>=2 in /usr/local/lib/python3.12/dist-packages (from requests->ray) (3.4.6)
+Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.12/dist-packages (from requests->ray) (3.11)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.12/dist-packages (from requests->ray) (2.6.3)
+Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.12/dist-packages (from requests->ray) (2026.2.25)
+Downloading ray-2.54.0-cp312-cp312-manylinux2014_x86_64.whl (73.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.0/73.0 MB 61.4 MB/s  0:00:01
+Downloading msgpack-1.1.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (427 kB)
+Installing collected packages: msgpack, ray
+Successfully installed msgpack-1.1.2 ray-2.54.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Namespace(model='Sehyo/Qwen3.5-122B-A10B-NVFP4', tp_size=1, enable_expert_parallel=False, dtype='auto', use_deep_gemm=False, save_dir='/usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/fused_moe/configs', seed=0, batch_size=[1, 2, 4, 8], tune=True, trust_remote_code=False, model_prefix=None)
+2026-03-22 06:32:57,323	INFO worker.py:2013 -- Started a local Ray instance.
+/usr/local/lib/python3.12/dist-packages/ray/_private/worker.py:2052: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+Start tuning over 1920 configurations...
+(BenchmarkWorker pid=379) Sun Mar 22 07:02:24 2026] Completed tuning for batch_size=1                                                                                                                                                                                                                                    
+(BenchmarkWorker pid=379) Sun Mar 22 07:33:05 2026] Completed tuning for batch_size=2                                                                                                                                                                                                                                                  
+(BenchmarkWorker pid=379) Sun Mar 22 07:37:32 2026] Completed tuning for batch_size=4                                                                                                                                                                                                                                                  
+Writing best config to /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/fused_moe/configs/E=256,N=1024,device_name=NVIDIA_RTX_PRO_6000_Blackwell_Workstation_Edition.json...                                                                                                                                         
+Tuning took 4367.32 seconds                                                                                                                                                                                                                                                                                                            
+(BenchmarkWorker pid=379) Sun Mar 22 07:45:45 2026] Completed tuning for batch_size=8                                                                                                                                                                                                                                                  
+(pid=379) : 100%|██████████| 1.92k/1.92k [1:12:45<00:00, 2.27s/it]                                                                                                                                                                                                                                                                     
+(pid=379) : 100%|██████████| 1.92k/1.92k [43:22<00:00, 1.36s/it]                                                                                                                                                                                                                                                                       
+(pid=379) :  97%|█████████▋| 1.85k/1.92k [12:41<00:27, 2.43it/s]                                                                                                                                                                                                                                                                       
+(pid=379) :  97%|█████████▋| 1.85k/1.92k [08:14<00:17, 3.75it/s]                                                                                                                                                                                                                                                                       
+
+linux:~/docker/qwen-3-5-122b$ ls -la ~/.cache/vllm_configs/moe/
+-rw-r--r-- 1 root root  749 Mar 22 07:45 'E=256,N=1024,device_name=NVIDIA_RTX_PRO_6000_Blackwell_Workstation_Edition.json'
